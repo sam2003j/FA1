@@ -2,36 +2,30 @@ import { validateJWT } from '../validateJWT';
 import { encodeJWT } from '../encodeJWT';
 import { JwtPayload } from '../interfaces';
 
-
-const secret = 'test_secret';
-const ttl = 3600; 
-
 describe('validateJWT', () => {
-  it('should return true for a valid JWT', () => {
-    const payload: JwtPayload = { id: '123', role: 'admin', exp: Math.floor(Date.now() / 1000) + 60 };
-    const header = { alg: 'HS256', typ: 'JWT' };
-    const token = encodeJWT(header, payload, secret,ttl);
+  const secret = 'test-secret';
+  const ttl = 3600; // 1 hour
+  const header = { alg: 'HS256', typ: 'JWT' };
+  const payload: JwtPayload = { id: '123', role: 'admin' };
 
-    const isValid = validateJWT(token, secret);
-    
-    expect(isValid).toBe(true);
+  const validToken = encodeJWT(header, payload, secret, ttl);
+
+  it('should return true for a valid JWT', () => {
+    expect(validateJWT(validToken, secret)).toBe(true);
+  });
+
+  it('should return false for an invalid signature', () => {
+    const invalidToken = `${validToken.split('.')[0]}.${validToken.split('.')[1]}.invalid-signature`;
+    expect(validateJWT(invalidToken, secret)).toBe(false);
   });
 
   it('should return false for an expired JWT', () => {
-    const payload: JwtPayload = { id: '123', role: 'admin', exp: Math.floor(Date.now() / 1000) - 60 };
-    const header = { alg: 'HS256', typ: 'JWT' };
-    const token = encodeJWT(header, payload, secret,ttl);
-
-    const isValid = validateJWT(token, secret);
-    
-    expect(isValid).toBe(false);
+    const expiredPayload: JwtPayload = { ...payload, exp: Math.floor(Date.now() / 1000) - 60 }; // 1 minute ago
+    const expiredToken = encodeJWT(header, expiredPayload, secret, ttl);
+    expect(validateJWT(expiredToken, secret)).toBe(false);
   });
 
-  it('should return false for an invalid JWT', () => {
-    const invalidToken = 'invalid.token.signature';
-
-    const isValid = validateJWT(invalidToken, secret);
-    
-    expect(isValid).toBe(false);
+  it('should return false for an invalid format', () => {
+    expect(validateJWT('invalid.token.format', secret)).toBe(false);
   });
 });
