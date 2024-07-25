@@ -9,8 +9,13 @@ export const decodeJWT = (token: string, secret: string): { header: object; payl
     throw new Error('Invalid JWT format');
   }
 
-  const header = JSON.parse(base64UrlDecode(headerEncoded));
-  const payload = JSON.parse(base64UrlDecode(payloadEncoded)) as JwtPayload;
+  let header, payload;
+  try {
+    header = JSON.parse(base64UrlDecode(headerEncoded));
+    payload = JSON.parse(base64UrlDecode(payloadEncoded)) as JwtPayload;
+  } catch (e) {
+    throw new Error('Invalid JWT format');
+  }
 
   const expectedSignature = crypto
     .createHmac('sha256', secret)

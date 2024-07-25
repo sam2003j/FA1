@@ -13,5 +13,6 @@ export const base64UrlEncode = (input: string): string => {
     while (str.length % 4 !== 0) {
       str += '=';
     }
-    return Buffer.from(str, 'base64').toString('utf8');
+    return Buffer.from(str, 'base64').toString();
   };
+  
