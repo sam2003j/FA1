@@ -1,4 +1,3 @@
-// app/protected/page.tsx
 "use client";
 
 import React, { useEffect, useState } from 'react';
@@ -13,7 +12,7 @@ const ProtectedPage = () => {
       const token = localStorage.getItem('token');
 
       if (!token) {
-        window.location.href = '/login'; 
+        window.location.href = '/login';
         return;
       }
 

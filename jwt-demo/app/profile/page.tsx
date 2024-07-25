@@ -3,8 +3,15 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+interface User {
+    id: string | number;
+    role: string;
+}
+
 export default function Profile() {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -19,21 +26,34 @@ export default function Profile() {
                     });
                     setUser(response.data.user);
                 } catch (error) {
-                    console.error(error);
+                    setError('Failed to fetch profile');
+                } finally {
+                    setLoading(false);
                 }
+            } else {
+                setError('No token found');
+                setLoading(false);
             }
         };
 
         fetchProfile();
     }, []);
 
-    if (!user) {
+    if (loading) {
         return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div className="text-red-500">{error}</div>;
+    }
+
+    if (!user) {
+        return <div>No user data</div>;
     }
 
     return (
         <div>
-            <h1>Profile</h1>
+            <h1 className="text-2xl font-bold">Profile</h1>
             <p>ID: {user.id}</p>
             <p>Role: {user.role}</p>
         </div>

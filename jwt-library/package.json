@@ -2,15 +2,16 @@
   "name": "jwt-library",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc",
+    "clean": "rm -rf dist"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2",
-    "jsonwebtoken": "^8.5.1"
+    "express": "^4.19.2"
   },
   "devDependencies": {
     "@babel/core": "^7.24.9",

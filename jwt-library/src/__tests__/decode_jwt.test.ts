@@ -1,22 +1,26 @@
-import { encode_jwt, decode_jwt, JwtPayload } from '../index';
+import { decodeJWT } from '../decodeJWT';
+import { encodeJWT } from '../encodeJWT';
+import { JwtPayload } from '../interfaces';
 
-describe('decode_jwt', () => {
-    const secret = 'testsecret';
-    const id = 'testid';
-    const payload: JwtPayload = { id, role: 'admin' };
-    const ttl = 3600;
+const secret = 'test_secret';
+const ttl = 3600; 
 
-    it('should decode a valid JWT', () => {
-        const token = encode_jwt(secret, id, payload, ttl);
-        const decoded = decode_jwt(secret, token);
+describe('decodeJWT', () => {
+  it('should decode a valid JWT', () => {
+    const payload: JwtPayload = { id: '123', role: 'admin', exp: Math.floor(Date.now() / 1000) + 60 };
+    const header = { alg: 'HS256', typ: 'JWT' };
+    const token = encodeJWT(header, payload, secret,ttl);
 
-        expect(decoded.id).toBe(id);
-        expect(decoded.payload.role).toBe(payload.role);
-        expect(decoded.expires_at).toBeInstanceOf(Date);
-    });
+    const decoded = decodeJWT(token, secret);
+    
+    expect(decoded).toBeDefined();
+    expect(decoded.payload.id).toBe(payload.id);
+    expect(decoded.payload.role).toBe(payload.role);
+  });
 
-    it('should throw an error for an invalid JWT', () => {
-        const invalidToken = 'invalidtoken';
-        expect(() => decode_jwt(secret, invalidToken)).toThrow('Invalid JWT');
-    });
+  it('should throw an error for an invalid JWT', () => {
+    const invalidToken = 'invalid.token.signature';
+
+    expect(() => decodeJWT(invalidToken, secret)).toThrow('Invalid signature');
+  });
 });

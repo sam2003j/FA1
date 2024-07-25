@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { decode_jwt, validate_jwt } from 'jwt-library';
+import { decodeJWT, validateJWT } from 'jwt-library';
 
 export async function GET(req: NextRequest) {
     const token = req.headers.get('authorization')?.split(' ')[1];
@@ -8,13 +8,16 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const secret = process.env.JWT_SECRET || 'testsecret';
+    const secret = process.env.JWT_SECRET || 'fallback-secret-key';
 
-    if (!validate_jwt(secret, token)) {
+    if (!validateJWT(secret, token)) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const decoded = decode_jwt(secret, token);
-
-    return NextResponse.json({ user: decoded.payload });
+    try {
+        const decoded = decodeJWT(token, secret);
+        return NextResponse.json({ user: decoded.payload });
+    } catch (error) {
+        return NextResponse.json({ error: 'Invalid token' }, { status: 401 });
+    }
 }
