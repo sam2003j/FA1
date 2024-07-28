@@ -21,12 +21,12 @@ const LoginPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id, role }),
+        body: JSON.stringify({ id, role }), //sending id and role to the server
       });
 
       if (response.ok) {
         const data = await response.json();
-        localStorage.setItem('token', data.token); // Store the token in local storage
+        localStorage.setItem('token', data.token); // store the token in local storage
         router.push('/protected'); // Redirect to protected page
       } else {
         const errorData = await response.json();
@@ -40,9 +40,9 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-indigo-500 to-purple-600">
+      <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg transform transition-all hover:scale-105">
+        <h1 className="text-3xl font-bold mb-4 text-center text-gray-900">Login</h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label htmlFor="id" className="block text-sm font-medium text-gray-700">ID:</label>
@@ -52,7 +52,7 @@ const LoginPage = () => {
               value={id}
               onChange={(e) => setId(e.target.value)}
               required
-              className="mt-1 p-2 border border-gray-300 rounded-md w-full text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 p-2 border border-gray-300 rounded-md w-full text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
           <div className="mb-4">
@@ -63,13 +63,13 @@ const LoginPage = () => {
               value={role}
               onChange={(e) => setRole(e.target.value)}
               required
-              className="mt-1 p-2 border border-gray-300 rounded-md w-full text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="mt-1 p-2 border border-gray-300 rounded-md w-full text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
           <button
             type="submit"
-            className={`w-full p-2 rounded-md text-white ${loading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'} transition`}
+            className={`w-full p-2 rounded-md text-white ${loading ? 'bg-indigo-400' : 'bg-indigo-600 hover:bg-indigo-700'} transition-colors duration-300 ease-in-out`}
             disabled={loading}
           >
             {loading ? 'Logging in...' : 'Login'}

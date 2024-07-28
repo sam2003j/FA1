@@ -1,18 +1,23 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Link from 'next/link';
-import './globals.css'; 
+import './globals.css';
+
 const HomePage = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-md text-center">
-        <h1 className="text-3xl font-bold mb-4 text-black">Welcome to JWT Demo</h1>
-        <p className="text-lg mb-6 text-black">This is a demo application to showcase JWT authentication specially built for no scrubs assignment.</p>
-        <Link href="/login" className="inline-block px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 text-center">
+      <h1 className="text-6xl font-extrabold text-white mb-4" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+        Welcome to JWT Demo
+      </h1>
+      <p className="text-xl text-white mb-8" style={{ fontFamily: 'Roboto, sans-serif' }}>
+        This is a demo application to showcase JWT authentication specially built for the no scrubs assignment.
+      </p>
+      <Link href="/login" legacyBehavior>
+        <a className="px-8 py-4 bg-white text-blue-600 font-semibold rounded-full shadow-md hover:bg-gray-100 hover:shadow-lg transition-transform transform hover:-translate-y-1">
           Go to Login
-        </Link>
-      </div>
+        </a>
+      </Link>
     </div>
   );
 };

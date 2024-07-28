@@ -18,6 +18,7 @@ export default function Profile() {
             const token = localStorage.getItem('token');
 
             if (token) {
+                console.log('Using Token:', token); 
                 try {
                     const response = await axios.get('/api/profile', {
                         headers: {
@@ -40,22 +41,36 @@ export default function Profile() {
     }, []);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
+                <div className="text-lg font-semibold text-white">Loading...</div>
+            </div>
+        );
     }
 
     if (error) {
-        return <div className="text-red-500">{error}</div>;
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
+                <div className="text-lg font-semibold text-red-500">{error}</div>
+            </div>
+        );
     }
 
     if (!user) {
-        return <div>No user data</div>;
+        return (
+            <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
+                <div className="text-lg font-semibold text-white">No user data</div>
+            </div>
+        );
     }
 
     return (
-        <div>
-            <h1 className="text-2xl font-bold">Profile</h1>
-            <p>ID: {user.id}</p>
-            <p>Role: {user.role}</p>
+        <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
+            <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg text-center">
+                <h1 className="text-3xl font-bold mb-4 text-gray-900">Profile</h1>
+                <p className="text-lg mb-2 text-gray-700"><strong>ID:</strong> {user.id}</p>
+                <p className="text-lg mb-2 text-gray-700"><strong>Role:</strong> {user.role}</p>
+            </div>
         </div>
     );
 }

@@ -40,9 +40,9 @@ const ProtectedPage = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
-        <h1 className="text-3xl font-bold mb-4 text-black">Protected Page</h1>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600 p-4">
+      <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg transform transition-all hover:scale-105">
+        <h1 className="text-3xl font-bold mb-4 text-gray-900">Protected Page</h1>
         {loading ? (
           <p className="text-lg text-gray-600">Loading...</p>
         ) : error ? (
