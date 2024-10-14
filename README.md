@@ -1,5 +1,7 @@
 # JWT Library and Demo Application
 
+# some changes
+
 This repository contains two projects: `jwt-library` and `jwt-demo`. The `jwt-library` is a type-safe library for encoding, decoding, and validating JSON Web Tokens (JWTs). The `jwt-demo` is a bare NextJS application demonstrating the usage of the `jwt-library` to authenticate user requests.
 
 ## Project Structure
